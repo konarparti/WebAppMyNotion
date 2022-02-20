@@ -1,0 +1,39 @@
+﻿@model Interest
+@{
+    ViewData["Title"] = "Добавление записи";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-muted">Добавление записи</h2>
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Type"></label>
+            <input asp-for="Type" class="form-control"/>
+            <span asp-validation-for="Type"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Scope"></label>
+            <input asp-for="Scope" class="form-control"/>
+            <span asp-validation-for="Scope"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Status"></label>
+            <input asp-for="Status" class="form-control"/>
+            <span asp-validation-for="Status"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Progress"></label>
+            <input asp-for="Progress" class="form-control"/>
+            <span asp-validation-for="Progress"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" asp-controller="Interest" asp-action="Create">Добавить</button>
+    </div>
+</form>
