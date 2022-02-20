@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Interest>
+@{
+    ViewData["Title"] = "Таблица";
+}
+
+<h1>Данные из таблицы Interest</h1>
+
+<table class="table table-bordered table-striped" style="width: 100%">
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Тип</th>
+        <th>Область</th>
+        <th>Статус</th>
+        <th>Прогресс</th>
+        <th>Дата добавления</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Type
+            </td>
+            <td>
+                @item.Scope
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.Progress
+            </td>
+            <td>
+                @item.DateAdded
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
