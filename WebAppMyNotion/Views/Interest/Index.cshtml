@@ -3,13 +3,7 @@
     ViewData["Title"] = "Таблица";
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-dismissible alert-primary mt-3">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        @TempData["Success"]
-    </div>
-}
+@await Html.PartialAsync("NotificationPartial")
 
 <div class="container p-3">
     <div class="row">
@@ -22,7 +16,7 @@
             </a>
         </div>
     </div>
-    <br/>
+    <br />
 
     <table class="table table-bordered table-striped" style="width: 100%">
         <thead>
@@ -63,13 +57,13 @@
                             <a asp-controller="Interest" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm mx-1"> <i class="bi bi-pencil"></i> &nbsp; Изменить</a>
                             <input type="hidden" name="Id" value="@item.Id" />
                             <button type="submit" class="btn btn-danger btn-sm mx-1">
-                                 <i class="bi bi-trash3"></i> &nbsp; Удалить
+                                <i class="bi bi-trash3"></i> &nbsp; Удалить
                             </button>
 
                         </form>
 
-                         
-                            
+
+
                     </td>
                 </tr>
             }
