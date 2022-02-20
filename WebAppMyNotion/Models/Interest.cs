@@ -26,7 +26,7 @@ namespace WebAppMyNotion.Models
         [Display(Name = "Прогресс")]
         public string? Progress { get; set; }
         [DataType(DataType.DateTime)]
-        [Display(Name = "Дата добавления")]
+        [Display(Name = "Дата добавления/изменения")]
         public DateTime DateAdded { get; set; }
     }
 }

@@ -36,6 +36,7 @@ namespace WebAppMyNotion.Controllers
             {
                 _context.Interests.Add(interest);
                 _context.SaveChanges();
+                TempData["Success"] = "Запись успешно добавлена";
                 return RedirectToAction(nameof(Index));
             }
             return View(interest);
@@ -67,6 +68,7 @@ namespace WebAppMyNotion.Controllers
             {
                 _context.Interests.Update(interest);
                 _context.SaveChanges();
+                TempData["Success"] = "Запись успешно изменена";
                 return RedirectToAction(nameof(Index));
             }
             return View(interest);
@@ -85,6 +87,7 @@ namespace WebAppMyNotion.Controllers
             }
             _context.Interests.Remove(interestFromDb);
             _context.SaveChanges();
+            TempData["Success"] = "Запись успешно удалена";
             return RedirectToAction(nameof(Index));
         }
     }
