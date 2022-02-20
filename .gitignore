@@ -5,6 +5,8 @@
 #CK Editor
 [Cc]keditor/
 
+**/wwwroot/lib
+
 # User-specific files
 *.rsuser
 *.suo
