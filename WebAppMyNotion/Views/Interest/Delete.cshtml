@@ -1,0 +1,38 @@
+﻿@model Interest
+@{
+    ViewData["Title"] = "Удаление записи";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-muted">Удаление записи</h2>
+        </div>
+        <div class="row pb-2">
+            <h4 class="text-muted">Вы уверены что хотите удалить запись?</h4>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted">Название:</label>
+            <label>@Model.Name</label>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted">Тип:</label>
+            <label>@Model.Type</label>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted">Область:</label>
+            <label>@Model.Scope</label>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted">Статус:</label>
+            <label>@Model.Status</label>
+        </div>
+        <div class="mb-3">
+            <label class="text-muted">Прогресс:</label>
+            <label>@Model.Progress</label>
+        </div>
+        
+        <button type="submit" class="btn btn-danger" asp-controller="Interest" asp-action="Delete">Удалить</button>
+        <a asp-controller="Interest" asp-action="Index" class="btn btn-success">Отмена</a>
+    </div>
+</form>

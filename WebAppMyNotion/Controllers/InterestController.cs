@@ -73,12 +73,29 @@ namespace WebAppMyNotion.Controllers
             }
             return View(interest);
         }
-        
-        
-        //Post
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+        //Get
+        [HttpGet]
         public IActionResult Delete(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+
+            var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
+            if (interestFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(interestFromDb);
+        }
+
+        //Post
+        [HttpPost,ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
         {
             var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
             if (interestFromDb == null)
