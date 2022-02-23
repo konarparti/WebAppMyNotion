@@ -10,15 +10,22 @@
             <h2 class="text-muted">Содержимое базы данных</h2>
         </div>
         <div class="col-6 text-end">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-4">
+            <input class="mt-2 mb-2 form-control" type="text" placeholder="Поиск по таблице" id="search" onkeyup="tableSearch()"/>
+        </div>
+        <div class="offset-4 col-4 text-end">
             <a asp-controller="Interest" asp-action="Create" class="btn btn-success">
                 <i class="bi bi-plus-square"></i> &nbsp; Добавить новую запись
             </a>
         </div>
     </div>
-    <br />
 
-    <table class="table table-bordered table-striped" style="width: 100%">
-        <thead>
+    <table class="table table-bordered table-striped" id="main-table" style="width: 100%">
+        <thead class="text-center">
             <tr>
                 <th>Название</th>
                 <th>Тип</th>
