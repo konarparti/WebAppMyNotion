@@ -5,4 +5,32 @@
     Layout = "_Layout";
 }
 
-<h2>@Model.Name</h2>
+<div class="container p-3">
+    <h2>@Model.Name</h2>
+    <div class="mb-3">
+        <h5 class="text-muted">Название:</h5>
+        <h5>@Model.Name</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Подробное описание:</h5>
+        <h5>@Html.Raw(Model.Description)</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Тип:</h5>
+        <h5>@Model.Type</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Область:</h5>
+        <h5>@Model.Scope</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Статус:</h5>
+        <h5>@Model.Status</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Прогресс:</h5>
+        <h5>@Model.Progress</h5>
+    </div>
+
+</div>
+

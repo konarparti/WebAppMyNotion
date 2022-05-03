@@ -17,6 +17,8 @@ namespace WebAppMyNotion.Models
         [Required]
         [Display(Name = "Название")]
         public string Name { get; set; }
+        [Display(Name = "Описание")]
+        public string? Description { get; set; }
         [Display(Name = "Тип")]
         public string? Type { get; set; }
         [Display(Name = "Область")]

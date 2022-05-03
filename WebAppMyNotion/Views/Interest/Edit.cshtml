@@ -3,6 +3,8 @@
     ViewData["Title"] = "Изменение записи";
 }
 
+<script src="../../js/ckeditor/ckeditor.js"></script>
+
 <form method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
@@ -12,6 +14,11 @@
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control"/>
             <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Type"></label>
@@ -37,6 +44,13 @@
         <a asp-controller="Interest" asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
 </form>
+
+<script>
+    window.onload = function() {
+        var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.Description)');
+        newCKEdit.updateElement();
+    }
+</script>
 
 @section Scripts{
     @{
