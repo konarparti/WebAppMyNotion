@@ -1,0 +1,34 @@
+﻿@model Note
+
+@{
+    ViewBag.Title = $"{Model.Name}";
+}
+
+<div class="container p-3">
+    <h2>@Model.Name</h2>
+    <div class="mb-3">
+        <h5 class="text-muted">Название:</h5>
+        <h5>@Model.Name</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Содержание</h5>
+        <h5>@Html.Raw(Model.Content)</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Дата добавления:</h5>
+        <h5>@Model.DateAdded</h5>
+    </div>
+    <div class="mb-3">
+        <h5 class="text-muted">Ссылки на другие заметки:</h5>
+    </div>
+    @if (Model.Links != null)
+    {
+        foreach (var item in Model.Links)
+        {
+            <div class="mb-3">
+                <h5><a>@item.Name</a></h5>
+            </div>
+        }
+    }
+</div>
+
