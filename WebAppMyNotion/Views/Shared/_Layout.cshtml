@@ -6,9 +6,9 @@
     <title>@ViewData["Title"]</title>
     @await Html.PartialAsync("CssPartial")
 </head>
-<body>
+<body class="wrapper">
     @await Html.PartialAsync("HeaderPartial")
-    <div class="container">
+    <div class="content container">
         <main role="main" class="pb-3">
             @await Html.PartialAsync("NotificationPartial")
             @RenderBody()

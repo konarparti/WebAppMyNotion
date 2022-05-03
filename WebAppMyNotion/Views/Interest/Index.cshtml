@@ -6,20 +6,20 @@
 
 <div class="container p-3">
     <div class="row">
-        <div class="col-6">
+        <div>
             <h2 class="text-muted">Содержимое базы данных</h2>
         </div>
-        <div class="col-6 text-end">
+        <div class="col-1 text-end">
         </div>
     </div>
     <br />
-    <div class="row">
-        <div class="col-4">
-            <input class="mt-2 mb-2 form-control" type="text" placeholder="Поиск по таблице" id="search" onkeyup="tableSearch()"/>
+    <div class=" d-flex flex-row justify-content-between align-items-baseline mb-2">
+        <div>
+            <input class="form-control" type="text" placeholder="Поиск по таблице" id="search" onkeyup="tableSearch()"/>
         </div>
-        <div class="offset-4 col-4 text-end">
+        <div class="text-end">
             <a asp-controller="Interest" asp-action="Create" class="btn btn-success">
-                <i class="bi bi-plus-square"></i> &nbsp; Добавить новую запись
+                <i class="bi bi-plus-square"></i> &nbsp; Добавить
             </a>
         </div>
     </div>
@@ -28,11 +28,11 @@
         <thead class="text-center">
             <tr>
                 <th>Название</th>
-                <th>Тип</th>
-                <th>Область</th>
+                <th class="hide-on-phone">Тип</th>
+                <th class="hide-on-phone">Область</th>
                 <th>Статус</th>
-                <th>Прогресс</th>
-                <th>Дата добавления</th>
+                <th class="hide-on-phone">Прогресс</th>
+                <th class="hide-on-phone">Дата добавления</th>
                 <th>Действия</th>
             </tr>
         </thead>
@@ -41,21 +41,21 @@
             {
                 <tr>
                     <td>
-                        @item.Name
+                        <a asp-controller="Interest" asp-action="ShowMore" asp-route-id="@item.Id">@item.Name</a>
                     </td>
-                    <td>
+                    <td class="hide-on-phone">
                         @item.Type
                     </td>
-                    <td>
+                    <td class="hide-on-phone">
                         @item.Scope
                     </td>
                     <td>
                         @item.Status
                     </td>
-                    <td>
+                    <td class="hide-on-phone">
                         @item.Progress
                     </td>
-                    <td>
+                    <td class="hide-on-phone">
                         @item.DateAdded
                     </td>
                     <td class="text-center">

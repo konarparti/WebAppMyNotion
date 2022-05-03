@@ -107,5 +107,22 @@ namespace WebAppMyNotion.Controllers
             TempData["Success"] = "Запись успешно удалена";
             return RedirectToAction(nameof(Index));
         }
+
+        //Get
+        [HttpGet]
+        public IActionResult ShowMore(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+
+            var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
+            if (interestFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(interestFromDb);
+        }
     }
 }

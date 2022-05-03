@@ -6,3 +6,26 @@
     white-space: nowrap;
     line-height: 60px;
 }
+body {
+    min-height: 100vh;
+}
+.wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    flex: 0 0 auto;
+}
+.content {
+    flex: 1 0 auto;
+}
+footer {
+    line-height: 60px;
+    flex: 0 0 auto;
+}
+@media screen and (max-width: 480px) {
+    .hide-on-phone {
+        display: none;
+    }
+}
