@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Note>
+
+@if (Model.Any())
+    {
+        foreach (var note in Model)
+        {
+            <option>
+                @note.Name
+            </option>
+        }
+    }

@@ -1,4 +1,5 @@
-﻿@model Note
+﻿@using WebAppMyNotion.Models.ViewComponents
+@model Note
 @{
     ViewData["Title"] = "Новая заметка";
 }
@@ -20,24 +21,31 @@
             <textarea asp-for="Content" class="form-control"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="Links"></label>
+            <select asp-for="Links" multiple class="form-select form-select-sm" name="noteLinks">
+                @(await Component.InvokeAsync<NotesListViewComponent>())
+            </select>
+        </div>
+
         @*@if (Model != null)
-        {
+            {
             <div class="mb-3">
-                <label asp-for="Links"></label>
-                <select multiple asp-for="Links" class="form-control">
+            <label asp-for="Links"></label>
+            <select multiple asp-for="Links" class="form-control">
 
-                    foreach(var item in Model)
-                    {
-                    <option>
-                        item.Name
-                    </option>
-                    }
+            foreach(var item in Model)
+            {
+            <option>
+            item.Name
+            </option>
+            }
 
-                </select>
+            </select>
 
-                <span asp-validation-for="Links"></span>
+            <span asp-validation-for="Links"></span>
             </div>
-        }*@
+            }*@
 
         <button type="submit" class="btn btn-primary" asp-controller="Note" asp-action="Create">Добавить</button>
         <a asp-controller="Note" asp-action="Index" class="btn btn-secondary">Отмена</a>
