@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAppMyNotion.Models;
 
 namespace WebAppMyNotion.Controllers
@@ -15,21 +16,21 @@ namespace WebAppMyNotion.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Notes);
+            return View(await _context.Notes.ToListAsync());
         }
 
         //Get
         [HttpGet]
-        public IActionResult ShowMore(int? id)
+        public async Task<IActionResult> ShowMore(int? id)
         {
             if (id is null or 0)
             {
                 return NotFound();
             }
 
-            var noteFromDb = _context.Notes.FirstOrDefault(i => i.Id == id);
+            var noteFromDb = await _context.Notes.FirstOrDefaultAsync(i => i.Id == id);
             if (noteFromDb == null)
             {
                 return NotFound();
@@ -46,12 +47,12 @@ namespace WebAppMyNotion.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Note note)
+        public async Task<IActionResult> Create(Note note)
         {
             if (ModelState.IsValid)
             {
-                _context.Notes.Add(note);
-                _context.SaveChanges();
+                await _context.Notes.AddAsync(note);
+                await  _context.SaveChangesAsync();
                 TempData["Success"] = "Запись успешно добавлена";
                 return RedirectToAction(nameof(Index));
             }
@@ -59,14 +60,14 @@ namespace WebAppMyNotion.Controllers
         }
 
         //Get
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null or 0)
             {
                 return NotFound();
             }
 
-            var noteFromDb = _context.Notes.FirstOrDefault(i => i.Id == id);
+            var noteFromDb = await _context.Notes.FirstOrDefaultAsync(i => i.Id == id);
             if (noteFromDb == null)
             {
                 return NotFound();
@@ -78,12 +79,12 @@ namespace WebAppMyNotion.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Note note)
+        public async Task<IActionResult> Edit(Note note)
         {
             if (ModelState.IsValid)
             {
                 _context.Notes.Update(note);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 TempData["Success"] = "Запись успешно изменена";
                 return RedirectToAction(nameof(Index));
             }

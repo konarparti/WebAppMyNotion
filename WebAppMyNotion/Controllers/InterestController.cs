@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAppMyNotion.Models;
 
 namespace WebAppMyNotion.Controllers
@@ -16,9 +17,9 @@ namespace WebAppMyNotion.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Interests);
+            return View(await _context.Interests.ToListAsync());
         }
 
         //Get
@@ -30,12 +31,12 @@ namespace WebAppMyNotion.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Interest interest)
+        public async Task<IActionResult> Create(Interest interest)
         {
             if (ModelState.IsValid)
             {
-                _context.Interests.Add(interest);
-                _context.SaveChanges();
+                await _context.Interests.AddAsync(interest);
+                await _context.SaveChangesAsync();
                 TempData["Success"] = "Запись успешно добавлена";
                 return RedirectToAction(nameof(Index));
             }
@@ -43,14 +44,14 @@ namespace WebAppMyNotion.Controllers
         }
 
         //Get
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id is null or 0)
             {
                 return NotFound();
             }
 
-            var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
+            var interestFromDb = await _context.Interests.FirstOrDefaultAsync(i => i.Id == id);
             if (interestFromDb == null)
             {
                 return NotFound();
@@ -62,12 +63,12 @@ namespace WebAppMyNotion.Controllers
         //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Interest interest)
+        public async Task<IActionResult> Edit(Interest interest)
         {
             if (ModelState.IsValid)
             {
                 _context.Interests.Update(interest);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 TempData["Success"] = "Запись успешно изменена";
                 return RedirectToAction(nameof(Index));
             }
@@ -76,14 +77,14 @@ namespace WebAppMyNotion.Controllers
 
         //Get
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id is null or 0)
             {
                 return NotFound();
             }
 
-            var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
+            var interestFromDb = await _context.Interests.FirstOrDefaultAsync(i => i.Id == id);
             if (interestFromDb == null)
             {
                 return NotFound();
@@ -95,7 +96,7 @@ namespace WebAppMyNotion.Controllers
         //Post
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        public async Task<IActionResult> DeletePost(int? id)
         {
             var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
             if (interestFromDb == null)
@@ -103,21 +104,21 @@ namespace WebAppMyNotion.Controllers
                 return NotFound();
             }
             _context.Interests.Remove(interestFromDb);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             TempData["Success"] = "Запись успешно удалена";
             return RedirectToAction(nameof(Index));
         }
 
         //Get
         [HttpGet]
-        public IActionResult ShowMore(int? id)
+        public async Task<IActionResult> ShowMore(int? id)
         {
             if (id is null or 0)
             {
                 return NotFound();
             }
 
-            var interestFromDb = _context.Interests.FirstOrDefault(i => i.Id == id);
+            var interestFromDb = await _context.Interests.FirstOrDefaultAsync(i => i.Id == id);
             if (interestFromDb == null)
             {
                 return NotFound();
