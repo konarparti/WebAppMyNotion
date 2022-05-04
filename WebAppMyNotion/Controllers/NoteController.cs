@@ -36,5 +36,58 @@ namespace WebAppMyNotion.Controllers
             }
             return View(noteFromDb);
         }
+
+        //Get
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Note note)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Notes.Add(note);
+                _context.SaveChanges();
+                TempData["Success"] = "Запись успешно добавлена";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(note);
+        }
+
+        //Get
+        public IActionResult Edit(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+
+            var noteFromDb = _context.Notes.FirstOrDefault(i => i.Id == id);
+            if (noteFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(noteFromDb);
+        }
+
+        //Post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Note note)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Notes.Update(note);
+                _context.SaveChanges();
+                TempData["Success"] = "Запись успешно изменена";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(note);
+        }
     }
 }
