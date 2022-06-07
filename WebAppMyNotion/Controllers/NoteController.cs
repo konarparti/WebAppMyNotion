@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebAppMyNotion.Models;
 
 namespace WebAppMyNotion.Controllers
@@ -44,20 +45,16 @@ namespace WebAppMyNotion.Controllers
             return View();
         }
 
-        //Post
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Note note)
-        {
-            if (ModelState.IsValid)
-            {
-                await _context.Notes.AddAsync(note);
-                await  _context.SaveChangesAsync();
-                TempData["Success"] = "Запись успешно добавлена";
-                return RedirectToAction(nameof(Index));
-            }
-            return View(note);
-        }
+        ////Post
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult CreatePost()
+        //{
+        //    TempData["Success"] = "Запись успешно добавлена";
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        #region Edit
 
         //Get
         public async Task<IActionResult> Edit(int? id)
@@ -89,6 +86,31 @@ namespace WebAppMyNotion.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(note);
+        }
+
+        #endregion
+
+        //Post
+        [HttpPost]
+        public void AddNewNote([FromBody] object req)
+        {
+            var obj = new
+            {
+                Name = "",
+                Content = "",
+                Links = new List<string>(),
+                DateAdded = DateTime.Now,
+            };
+            var temp = JsonConvert.DeserializeAnonymousType(req.ToString(), obj);
+            var note = new Note
+            {
+                Name = temp.Name,
+                Content = temp.Content,
+                Links = JsonConvert.SerializeObject(temp.Links),
+                DateAdded = temp.DateAdded
+            };
+            _context.Notes.Add(note);
+            _context.SaveChanges();
         }
     }
 }

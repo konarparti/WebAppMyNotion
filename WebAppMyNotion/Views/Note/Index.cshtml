@@ -1,15 +1,17 @@
-﻿@model IEnumerable<Note>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json
+@model IEnumerable<Note>
 @{
     ViewBag.Title = "Заметки";
 }
 
 <div class="container p-3">
     <h2 class="text-muted">Все заметки</h2>
-   
+
     <br />
     <div class=" d-flex flex-row justify-content-between align-items-baseline mb-2">
         <div style="width: 45%">
-            <input class="form-control" type="text" placeholder="Поиск заметки" id="search" onkeyup="tableSearch()"/>
+            <input class="form-control" type="text" placeholder="Поиск заметки" id="search" onkeyup="tableSearch()" />
         </div>
         <div class="text-end">
             <a asp-controller="Note" asp-action="Create" class="btn btn-success">
@@ -17,40 +19,49 @@
             </a>
         </div>
     </div>
-    
+
     <table class="table table-bordered table-striped" id="main-table" style="width: 100%">
         <thead class="text-center">
-        <tr>
-            <th>Название</th>
-            <th class="hide-on-phone">Дата добавления</th>
-            <th class="hide-on-phone">Ссылки на другие заметки</th>
-            <th>Действия</th>
-        </tr>
+            <tr>
+                <th>Название</th>
+                <th class="hide-on-phone">Дата добавления</th>
+                <th class="hide-on-phone">Ссылки на другие заметки</th>
+                <th>Действия</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a asp-controller="Note" asp-action="ShowMore" asp-route-id="@item.Id">@item.Name</a>
-                </td>
-                <td class="hide-on-phone">
-                    @item.DateAdded
-                </td>
-                <td class="hide-on-phone">
-                    @item.Links
-                </td>
-                <td class="text-center">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Note" asp-action="ShowMore" asp-route-id="@item.Id">@item.Name</a>
+                    </td>
+                    <td class="hide-on-phone">
+                        @item.DateAdded
+                    </td>
+                    <td class="hide-on-phone">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(item.Links))
+                            {
+                                var temp = JsonConvert.DeserializeObject<List<string>>(item.Links);
+                                foreach (var link in temp)
+                                {
+                                    <a href="/Note/ShowMore/@Model.First(x => x.Name == link).Id">@link</a><br/>
+                                }
+                            }
+                        }
+                    </td>
+                    <td class="text-center">
 
-                    <a asp-controller="Note" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm m-1">
-                        <i class="bi bi-pencil hide-on-phone"></i><span>Изменить</span>
-                    </a>
-                    <a asp-controller="Note" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm m-1">
-                        <i class="bi bi-trash3 hide-on-phone"></i><span>Удалить</span>
-                    </a>
-                </td>
-            </tr>
-        }
+                        <a asp-controller="Note" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm m-1">
+                            <i class="bi bi-pencil hide-on-phone"></i><span>Изменить</span>
+                        </a>
+                        <a asp-controller="Note" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm m-1">
+                            <i class="bi bi-trash3 hide-on-phone"></i><span>Удалить</span>
+                        </a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
