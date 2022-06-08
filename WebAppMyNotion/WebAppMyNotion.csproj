@@ -26,12 +26,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Note\Delete.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Note\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Interest\ShowMore.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Note\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Note\Delete.cshtml" />
   </ItemGroup>
 
 </Project>

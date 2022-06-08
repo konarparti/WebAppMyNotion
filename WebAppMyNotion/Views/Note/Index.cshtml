@@ -46,7 +46,10 @@
                                 var temp = JsonConvert.DeserializeObject<List<string>>(item.Links);
                                 foreach (var link in temp)
                                 {
-                                    <a href="/Note/ShowMore/@Model.First(x => x.Name == link).Id">@link</a><br/>
+                                    if (Model.FirstOrDefault(x => x.Name == link) != null)
+                                    {
+                                        <a href="/Note/ShowMore/@Model.First(x => x.Name == link).Id">@link</a><br/>
+                                    }
                                 }
                             }
                         }

@@ -38,22 +38,7 @@ namespace WebAppMyNotion.Controllers
             }
             return View(noteFromDb);
         }
-
-        //Get
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        ////Post
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult CreatePost()
-        //{
-        //    TempData["Success"] = "Запись успешно добавлена";
-        //    return RedirectToAction(nameof(Index));
-        //}
-
+        
         #region Edit
 
         //Get
@@ -90,6 +75,14 @@ namespace WebAppMyNotion.Controllers
 
         #endregion
 
+        #region Create
+
+        //Get
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         //Post
         [HttpPost]
         public void AddNewNote([FromBody] object req)
@@ -112,5 +105,46 @@ namespace WebAppMyNotion.Controllers
             _context.Notes.Add(note);
             _context.SaveChanges();
         }
+
+        #endregion
+
+        #region Delete
+
+        //Get
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id is null or 0)
+            {
+                return NotFound();
+            }
+
+            var noteFromDb = await _context.Notes.FirstOrDefaultAsync(i => i.Id == id);
+            if (noteFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(noteFromDb);
+        }
+
+        //Post
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int? id)
+        {
+            var noteFromDb = _context.Notes.FirstOrDefault(i => i.Id == id);
+            if (noteFromDb == null)
+            {
+                return NotFound();
+            }
+            _context.Notes.Remove(noteFromDb);
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Запись успешно удалена";
+            return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
     }
 }

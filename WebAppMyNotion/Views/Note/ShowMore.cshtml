@@ -1,4 +1,5 @@
-﻿@model Note
+﻿@using Newtonsoft.Json
+@model Note
 
 @{
     ViewBag.Title = $"{Model.Name}";
@@ -21,13 +22,14 @@
     <div class="mb-3">
         <h5 class="text-muted">Ссылки на другие заметки:</h5>
     </div>
-    @if (Model.Links != null)
-    {
-        foreach (var item in Model.Links)
+    @{
+        if (!string.IsNullOrWhiteSpace(Model.Links))
         {
-            <div class="mb-3">
-                <h5><a>@item</a></h5>
-            </div>
+            var temp = JsonConvert.DeserializeObject<List<string>>(Model.Links);
+            foreach (var link in temp)
+            {
+                @link
+            }
         }
     }
 </div>

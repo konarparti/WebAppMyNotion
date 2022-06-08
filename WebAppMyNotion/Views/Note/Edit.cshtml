@@ -1,4 +1,7 @@
-﻿@model Note
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json
+@using WebAppMyNotion.Models.ViewComponents
+@model Note
 @{
     ViewData["Title"] = "Изменение заметки";
 }
@@ -6,38 +9,65 @@
 <script src="https://unpkg.com/vue@next"></script>
 <script src="../../js/ckeditor/ckeditor.js"></script>
 
-<form method="post">
+<div id="app">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-muted">Изменение записи</h2>
+            <h2 class="text-muted">Новая заметка</h2>
         </div>
         <div class="mb-3">
             <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control"/>
+            <input asp-for="Name" v-model="name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="Content"></label>
-            <textarea asp-for="Content" class="form-control"></textarea>
+            <textarea asp-for="Content" v-model="content" id="Content" class="form-control"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
-        
-        <div class="mb-3" id="app">
-            <select>
-                
+        <div class="mb-3">
+            <label asp-for="Links"></label>
+            <select v-model="selectedNotes" multiple class="form-select form-select-sm">
+                @(await Component.InvokeAsync<NotesListViewComponent>())
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" asp-controller="Note" asp-action="Edit">Изменить</button>
+        <button v-on:click="create" class="btn btn-primary">Изменить</button>
         <a asp-controller="Note" asp-action="Index" class="btn btn-secondary">Отмена</a>
     </div>
-</form>
+</div>
 
 <script>
     window.onload = function() {
         var newCKEdit = CKEDITOR.replace('@Html.IdFor(x=>x.Content)');
         newCKEdit.updateElement();
     }
+
+    let app = Vue.createApp({
+        data() {
+            return {
+                name: "",
+                content: "",
+                selectedNotes: []
+            }
+        },
+        methods: {
+            create() {
+                axios.post(
+                    'https://localhost:8000/Note/AddNewNote',
+                    {
+                        Name: this.name,
+                        Content: this.content,
+                        Links: this.selectedNotes,
+                        DateAdded: moment().format()
+                    },
+                    {headers: {"Content-Type": "application/json"}}
+                ).then(function(response) {
+                    document.location.href = 'https://localhost:8000/Note/';
+                });
+            }
+        }
+    });
+    let vm = app.mount("#app");
 </script>
 
 @section Scripts{
